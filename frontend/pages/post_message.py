@@ -22,22 +22,13 @@ class PickFile(ft.Row):
         ]
 
     def pick_files_result(self, e: ft.FilePickerResultEvent):
-        # self.selected_files.value = (
-        #     ", ".join(map(lambda f: f.path, e.files)) if e.files else "Cancelled!"
-        # )
         self.selected_files = [file.path for file in e.files]
         self.selected_files_text.value = f'selected files: {len(self.selected_files)}'
         self.selected_files_text.update()
 
-    # happens when example is added to the page (when user chooses the FilePicker control from the grid)
     def did_mount(self):
         self.page.overlay.append(self.pick_files_dialog)
         self.page.update()
-
-    # # happens when example is removed from the page (when user chooses different control group on the navigation rail)
-    # def will_unmount(self):
-    #     self.page.overlay.remove(self.pick_files_dialog)
-    #     self.page.update()
 
 
 def post_message(page, redirect, default_message_key=None):
