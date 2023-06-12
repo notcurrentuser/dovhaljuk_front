@@ -1,6 +1,8 @@
 import flet as ft
 import requests
 
+from frontend.settings import SERVER_URL
+
 
 class PickFile(ft.Row):
     def __init__(self):
@@ -42,8 +44,8 @@ def post_message(page, redirect, default_message_key=None):
     default_message = None
     try:
         if type(default_message_key) is str:
-            print(requests.get(f'http://localhost:5465/message/get/?hash_id={default_message_key}'))
-            default_message = requests.get(f'http://localhost:5465/message/get/?hash_id={default_message_key}').json()[
+            print(requests.get(f'{SERVER_URL}/message/get/?hash_id={default_message_key}'))
+            default_message = requests.get(f'{SERVER_URL}/message/get/?hash_id={default_message_key}').json()[
                 'message']
     except Exception as e:
         print(e)
@@ -64,12 +66,12 @@ def post_message(page, redirect, default_message_key=None):
             try:
                 print(file_field.selected_files)
                 files = {f'file{i}': open(value,'rb') for i, value in enumerate(file_field.selected_files)}
-                message_hash = requests.post('http://localhost:5465/message/send/',
+                message_hash = requests.post(f'{SERVER_URL}/message/send/',
                                              data={'message': message_field.value},
                                              files=files
                                              ).json()['message_hash']
 
-                message_hash_sign = requests.post('http://localhost:5465/private_key/sign/',
+                message_hash_sign = requests.post(f'{SERVER_URL}/private_key/sign/',
                                                   data={
                                                       'password_phrase': password_field.value,
                                                       'data_hash': message_hash,
@@ -77,7 +79,7 @@ def post_message(page, redirect, default_message_key=None):
                                                           'encrypted_private_key'),
                                                   }).json()['signature']
 
-                requests.post('http://localhost:5465/message_hash/send/',
+                requests.post(f'{SERVER_URL}/message_hash/send/',
                               data={
                                   'message_hash': message_hash,
                                   'message_hash_hash': message_hash_sign,

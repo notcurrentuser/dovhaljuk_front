@@ -4,12 +4,13 @@ import flet as ft
 import requests
 
 from frontend.common.message_description import message_description_formate as md_formate
+from frontend.settings import SERVER_URL
 
 
 def get_message(page, message_key):
     lv = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
-    message = requests.get(f'http://localhost:5465/message/get/?hash_id={message_key}').json()
-    message_hash = requests.post(f'http://localhost:5465/message_hash/get/', data={
+    message = requests.get(f'{SERVER_URL}/message/get/?hash_id={message_key}').json()
+    message_hash = requests.post(f'{SERVER_URL}/message_hash/get/', data={
         'hash_id': message_key
     }).json()
 

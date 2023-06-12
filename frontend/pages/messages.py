@@ -2,6 +2,7 @@ import requests
 import flet as ft
 
 from frontend.common.message_description import message_description_formate
+from frontend.settings import SERVER_URL
 
 
 def messages(page, redirect, edit_page):
@@ -15,7 +16,7 @@ def messages(page, redirect, edit_page):
     lv = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
 
     try:
-        last_messages = requests.get('http://localhost:5465/message/get/?last=10').json()
+        last_messages = requests.get(f'{SERVER_URL}/message/get/?last=10').json()
 
         for message_key in last_messages.keys():
             message_description = message_description_formate(last_messages[message_key]['message_description'])

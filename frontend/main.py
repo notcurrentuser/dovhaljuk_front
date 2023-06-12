@@ -62,7 +62,7 @@ def start_up(page):
 
 
 def run_client():
-    ft.app(target=start_up, view=ft.WEB_BROWSER)
+    ft.app(target=start_up, view=ft.WEB_BROWSER, port=8000)
 
 
 if __name__ == '__main__':

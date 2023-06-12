@@ -1,6 +1,7 @@
 import flet as ft
 import requests
 
+from frontend.settings import SERVER_URL
 
 def auth_key(page, redirect):
     password_field = ft.TextField(label="Your password")
@@ -14,7 +15,7 @@ def auth_key(page, redirect):
                 else:
                     page.splash = ft.ProgressBar()
                     page.update()
-                    pems = requests.post('http://localhost:5465/private_key/generation/',
+                    pems = requests.post(f'{SERVER_URL}/private_key/generation/',
                                          {'password_phrase': password_field.value}).json()
                     page.splash = None
                     page.update()
